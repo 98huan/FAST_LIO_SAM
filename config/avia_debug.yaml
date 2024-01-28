@@ -1,13 +1,13 @@
 common:
     lid_topic:  "/livox/lidar"
     imu_topic:  "/livox/imu"
-    gnss_topic:  /gps/fix         #"/imu/data"
+    gnss_topic:  /gps_NavSatFix         #"/imu/data"
     time_sync_en: false         # ONLY turn on when external time synchronization is really not possible
 
 preprocess:
     lidar_type: 1                # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 
     scan_line: 4
-    blind: 4
+    blind: 2
 
 mapping:
     acc_cov: 0.1
@@ -17,7 +17,7 @@ mapping:
     fov_degree:    360
     det_range:     70.0
     extrinsic_est_en:  false      # true: enable the online estimation of IMU-LiDAR extrinsic
-    extrinsic_T: [0.011, 0.02329, -0.04412]     # mid360惯导到激光的偏移
+    extrinsic_T: [-0.011, -0.02329, 0.04412]     # mid360 imu到lidar
     extrinsic_R: [ 1, 0, 0,
                    0, 1, 0,
                    0, 0, 1]
@@ -44,7 +44,7 @@ z_tollerance: 1000                            # meters
 rotation_tollerance: 1000                     # radians
 
 # CPU Params
-numberOfCores: 4                              # number of cores for mapping optimization
+numberOfCores: 8                              # number of cores for mapping optimization
 mappingProcessInterval: 0.15                  # seconds, regulate mapping frequency
 
 # Surrounding map
@@ -66,7 +66,7 @@ historyKeyframeFitnessScore: 0.3              # icp threshold, the smaller the b
 useImuHeadingInitialization: false           # if using GPS data, set to "true"
 useGpsElevation: false                      # if GPS elevation is bad, set to "false"
 gpsCovThreshold: 2.0                        # m^2, threshold for using GPS data
-poseCovThreshold: 0 #25.0                      # m^2, threshold for using GPS data  位姿协方差阈值 from isam2
+poseCovThreshold: 25.0 #25.0                      # m^2, threshold for using GPS data  位姿协方差阈值 from isam2
 
 
 # Visualization
