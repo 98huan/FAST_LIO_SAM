@@ -1822,6 +1822,7 @@ bool savePoseService(fast_lio_sam::save_poseRequest& req, fast_lio_sam::save_pos
     for(int i = 0; i  < fastlio_unoptimized_cloudKeyPoses6D->size(); i++){  
         pose_without_optimized.t =  Eigen::Vector3d(fastlio_unoptimized_cloudKeyPoses6D->points[i].x, fastlio_unoptimized_cloudKeyPoses6D->points[i].y, fastlio_unoptimized_cloudKeyPoses6D->points[i].z  );
         pose_without_optimized.R = Exp(double(fastlio_unoptimized_cloudKeyPoses6D->points[i].roll), double(fastlio_unoptimized_cloudKeyPoses6D->points[i].pitch), double(fastlio_unoptimized_cloudKeyPoses6D->points[i].yaw) );
+        
         WriteText(file_pose_without_optimized, pose_without_optimized);
     }
     cout << "Sucess unoptimized  poses to pose files ..." << endl;
@@ -2256,10 +2257,11 @@ int main(int argc, char **argv)
     string pos_log_dir = root_dir + "/Log/pos_log.txt";
     fp = fopen(pos_log_dir.c_str(), "w");
 
-    ofstream fout_pre, fout_out, fout_dbg;
+    ofstream fout_pre, fout_out, fout_dbg, fout_traj;
     fout_pre.open(DEBUG_FILE_DIR("mat_pre.txt"), ios::out);
     fout_out.open(DEBUG_FILE_DIR("mat_out.txt"), ios::out);
     fout_dbg.open(DEBUG_FILE_DIR("dbg.txt"), ios::out);
+    fout_traj.open(root_dir + "/results/traj_tum.txt", ios::out);
     if (fout_pre && fout_out)
         cout << "~~~~" << ROOT_DIR << " file opened" << endl;
     else
@@ -2460,6 +2462,16 @@ int main(int argc, char **argv)
             // publish_effect_world(pubLaserCloudEffect);
             // publish_map(pubLaserCloudMap);
 
+            if (pcd_save_en) {
+                fout_traj
+                        << ros::Time().fromSec(lidar_end_time) << " "
+                        << state_point.pos(0) <<" "
+                        << state_point.pos(1) << " "
+                        << state_point.pos(2) << " "
+                        << geoQuat.x << " " << geoQuat.y << " " << geoQuat.z << " " << geoQuat.w
+                        << endl;
+            }
+            
             /*** Debug variables ***/
             if (runtime_pos_log)
             {

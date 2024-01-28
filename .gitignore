@@ -2,8 +2,9 @@
 # ignore dir or file
 .gitignore
 PCD
-log
+Log
 .vscode
+results
 #whitelist
 
 

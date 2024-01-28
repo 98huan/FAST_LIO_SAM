@@ -7,7 +7,7 @@ common:
 preprocess:
     lidar_type: 1                # 1 for Livox serials LiDAR, 2 for Velodyne LiDAR, 3 for ouster LiDAR, 
     scan_line: 4
-    blind: 2
+    blind: 4
 
 mapping:
     acc_cov: 0.1
@@ -15,7 +15,7 @@ mapping:
     b_acc_cov: 0.0001
     b_gyr_cov: 0.0001
     fov_degree:    360
-    det_range:     100.0
+    det_range:     70.0
     extrinsic_est_en:  false      # true: enable the online estimation of IMU-LiDAR extrinsic
     extrinsic_T: [0.011, 0.02329, -0.04412]     # mid360惯导到激光的偏移
     extrinsic_R: [ 1, 0, 0,
@@ -35,9 +35,9 @@ pcd_save:
 
 
 # voxel filter paprams
-odometrySurfLeafSize: 0.2                     # default: 0.4 - outdoor, 0.2 - indoor
-mappingCornerLeafSize: 0.1                    # default: 0.2 - outdoor, 0.1 - indoor
-mappingSurfLeafSize: 0.2                      # default: 0.4 - outdoor, 0.2 - indoor
+odometrySurfLeafSize: 0.4                     # default: 0.4 - outdoor, 0.2 - indoor
+mappingCornerLeafSize: 0.2                    # default: 0.2 - outdoor, 0.1 - indoor
+mappingSurfLeafSize: 0.4                      # default: 0.4 - outdoor, 0.2 - indoor
 
 # robot motion constraint (in case you are using a 2D robot)
 z_tollerance: 1000                            # meters
@@ -82,4 +82,4 @@ recontructKdTree: true
 
 # Export settings
 savePCD: true                         # https://github.com/TixiaoShan/LIO-SAM/issues/3
-savePCDDirectory: "/fast_lio_sam_ws/src/FAST_LIO_SAM/PCD/"        # in your home folder, starts and ends with "/". Warning: the code deletes "LOAM" folder then recreates it. See "mapOptimization" for implementation
+savePCDDirectory: "/catkin_ws/src/FAST_LIO_SAM/results/"        # in your home folder, starts and ends with "/". Warning: the code deletes "LOAM" folder then recreates it. See "mapOptimization" for implementation
